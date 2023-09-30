@@ -27,7 +27,7 @@ namespace Insurance.Api.Controllers
 
             foreach (var strategy in _strategies)
             {
-                strategy.CalculateInsuranceValue(toInsure);
+                strategy.CalculateInsuranceValue(ref toInsure);
             }
 
             return toInsure;

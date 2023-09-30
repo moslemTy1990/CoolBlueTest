@@ -26,6 +26,7 @@ namespace Insurance.Tests
                 new LowSalesPriceStrategy(),
                 new MediumSalesPriceStrategy(),
                 new HighSalesPriceStrategy(),
+                new CameraExtraInsuranceStrategy(),
                 // Add other mock strategies as needed
             };
         }
@@ -37,7 +38,7 @@ namespace Insurance.Tests
 
             var dto = new InsuranceDto()
                       {
-                          ProductId = 836194,
+                          ProductId = 827074,
                          // ProductId = 1,
                       };
             var sut = new HomeController(_strategies);
@@ -69,6 +70,24 @@ namespace Insurance.Tests
                 expected: expectedInsuranceValue,
                 actual: result.InsuranceValue
             );
+            
+        }
+        
+        [Fact]
+        public void CalculateInsurance_GivenProductTypeCameraExtra500_ShouldAdd500EurosToInsuranceCost()
+        {
+            const float expectedInsuranceValue = 1500;
+
+            var dto = new InsuranceDto()
+            {
+                ProductId = 836194,
+            };
+            
+            var sut = new HomeController(_strategies);
+
+            var result = sut.CalculateInsurance(dto);
+
+            Assert.Equal(expected: expectedInsuranceValue, actual: result.InsuranceValue);
             
         }
         

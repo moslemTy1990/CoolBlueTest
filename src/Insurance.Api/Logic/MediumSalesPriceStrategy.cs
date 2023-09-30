@@ -5,7 +5,7 @@ namespace Insurance.Api.Logic;
 
 public class MediumSalesPriceStrategy : IInsuranceCalculationStrategy
 {
-    public void CalculateInsuranceValue(InsuranceDto toInsure)
+    public void CalculateInsuranceValue(ref InsuranceDto toInsure)
     {
         if (toInsure.SalesPrice >= 500 && toInsure.SalesPrice < 2000)
         {

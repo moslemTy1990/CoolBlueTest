@@ -3,13 +3,14 @@ using Insurance.Api.Models;
 
 namespace Insurance.Api.Logic;
 
-public class LowSalesPriceStrategy : IInsuranceCalculationStrategy
+public class CameraExtraInsuranceStrategy : IInsuranceCalculationStrategy
 {
     public void CalculateInsuranceValue(ref InsuranceDto toInsure)
     {
-        if (toInsure.SalesPrice < 500)
+        
+        if (toInsure.ProductTypeName == "Digital cameras")
         {
-            toInsure.InsuranceValue += (toInsure.ProductTypeName == "Laptops") ? 500 : 0;
+            toInsure.InsuranceValue += 500;
         }
     }
 }
