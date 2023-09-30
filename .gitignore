@@ -1,0 +1,6 @@
+﻿/.idea
+net-interviewing-project-v2.sln.DotSettings.user
+/src/Insurance.Api/bin
+/src/Insurance.Api/obj
+/tests/Insurance.Tests/bin
+/tests/Insurance.Tests/obj
