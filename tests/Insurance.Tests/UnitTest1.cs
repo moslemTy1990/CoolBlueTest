@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using Insurance.Api.Controllers;
 using Insurance.Api.Interfaces;
 using Insurance.Api.Logic;
@@ -7,6 +8,7 @@ using Insurance.Api.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
 using Xunit;
@@ -17,6 +19,7 @@ namespace Insurance.Tests
     {
         private readonly ControllerTestFixture _fixture;
         private List<IInsuranceCalculationStrategy> _strategies;
+        private readonly IConfiguration _configuration;
 
         public InsuranceTests(ControllerTestFixture fixture)
         {
@@ -27,8 +30,14 @@ namespace Insurance.Tests
                 new MediumSalesPriceStrategy(),
                 new HighSalesPriceStrategy(),
                 new CameraExtraInsuranceStrategy(),
-                // Add other mock strategies as needed
+                // Add other strategies as needed
             };
+            
+            _configuration = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json")
+                .Build();
+                
         }
 
         [Fact]
@@ -41,7 +50,7 @@ namespace Insurance.Tests
                           ProductId = 827074,
                          // ProductId = 1,
                       };
-            var sut = new HomeController(_strategies);
+            var sut = new HomeController(_strategies, _configuration);
 
             var result = sut.CalculateInsurance(dto);
 
@@ -62,7 +71,7 @@ namespace Insurance.Tests
                 ProductId = 837856,
             };
             
-            var sut = new HomeController(_strategies);
+            var sut = new HomeController(_strategies, _configuration);
 
             var result = sut.CalculateInsurance(dto);
 
@@ -83,13 +92,14 @@ namespace Insurance.Tests
                 ProductId = 836194,
             };
             
-            var sut = new HomeController(_strategies);
+            var sut = new HomeController(_strategies, _configuration);
 
             var result = sut.CalculateInsurance(dto);
 
             Assert.Equal(expected: expectedInsuranceValue, actual: result.InsuranceValue);
             
         }
+        
         
     }
 
@@ -103,6 +113,7 @@ namespace Insurance.Tests
                    .ConfigureWebHostDefaults(
                         b => b.UseUrls("http://localhost:5000")
                               .UseStartup<ControllerTestStartup>()
+                              
                     )
                    .Build();
 

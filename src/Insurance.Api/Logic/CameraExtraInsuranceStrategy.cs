@@ -5,12 +5,8 @@ namespace Insurance.Api.Logic;
 
 public class CameraExtraInsuranceStrategy : IInsuranceCalculationStrategy
 {
-    public void CalculateInsuranceValue(ref InsuranceDto toInsure)
+    public float CalculateInsuranceValue(InsuranceDto toInsure)
     {
-        
-        if (toInsure.ProductTypeName == "Digital cameras")
-        {
-            toInsure.InsuranceValue += 500;
-        }
+        return (toInsure.ProductTypeName == "Digital cameras")? 500: 0;
     }
 }

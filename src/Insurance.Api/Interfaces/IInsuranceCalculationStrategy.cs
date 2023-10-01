@@ -4,5 +4,5 @@ namespace Insurance.Api.Interfaces;
 
 public interface IInsuranceCalculationStrategy
 {
-    void CalculateInsuranceValue(ref InsuranceDto toInsure);
+    float CalculateInsuranceValue(InsuranceDto toInsure);
 }

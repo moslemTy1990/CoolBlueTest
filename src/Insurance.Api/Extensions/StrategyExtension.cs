@@ -12,6 +12,5 @@ public static class StrategyExtension
         services.AddScoped<IInsuranceCalculationStrategy, MediumSalesPriceStrategy>();
         services.AddScoped<IInsuranceCalculationStrategy, HighSalesPriceStrategy>();
         services.AddScoped<IInsuranceCalculationStrategy, CameraExtraInsuranceStrategy>();
-
     }
 }

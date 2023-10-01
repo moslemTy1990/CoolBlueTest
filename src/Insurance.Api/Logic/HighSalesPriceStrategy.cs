@@ -5,12 +5,15 @@ namespace Insurance.Api.Logic;
 
 public class HighSalesPriceStrategy : IInsuranceCalculationStrategy
 {
-    public void CalculateInsuranceValue(ref InsuranceDto toInsure)
+    public float CalculateInsuranceValue(InsuranceDto toInsure)
     {
+        float extraInsuranceValue = 0f;
+        
         if (toInsure.SalesPrice >= 2000)
         {
             if (toInsure.ProductTypeHasInsurance)
-                toInsure.InsuranceValue += 2000;
+                extraInsuranceValue = 2000;
         }
+        return extraInsuranceValue;
     }
 }
