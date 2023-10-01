@@ -37,7 +37,6 @@ namespace Insurance.Tests
                 .SetBasePath(Directory.GetCurrentDirectory())
                 .AddJsonFile("appsettings.json")
                 .Build();
-                
         }
 
         [Fact]
@@ -58,7 +57,6 @@ namespace Insurance.Tests
                 expected: expectedInsuranceValue,
                 actual: result.InsuranceValue
             );
-            
         }
         
         [Fact]
@@ -79,7 +77,6 @@ namespace Insurance.Tests
                 expected: expectedInsuranceValue,
                 actual: result.InsuranceValue
             );
-            
         }
         
         [Fact]
@@ -97,10 +94,67 @@ namespace Insurance.Tests
             var result = sut.CalculateInsurance(dto);
 
             Assert.Equal(expected: expectedInsuranceValue, actual: result.InsuranceValue);
-            
         }
         
         
+        [Fact]
+        public void CalculateInsurance_GivenAShoppingCardWhichHas2Cameras_ShouldAddOnlyOneTime500()
+        {
+            const float expectedInsuranceValue = 2500;
+
+            var extraStrategies = new List<IInsuranceCalculationStrategy>()
+            {
+                new LowSalesPriceStrategy(),
+                new MediumSalesPriceStrategy(),
+                new HighSalesPriceStrategy(),
+            };
+
+            var dto = new List<InsuranceDto>(){
+            new InsuranceDto()
+            {
+                ProductId = 836194,
+            },
+            new InsuranceDto()
+            {
+                ProductId = 836194,
+            }};
+            
+            var sut = new HomeController(extraStrategies, _configuration);
+
+            var result = sut.CalculateAllInsurance(dto);
+
+            Assert.Equal(expected: expectedInsuranceValue, actual: result);
+            
+        }
+        
+        [Fact]
+        public void CalculateInsurance_GivenAShoppingCardWhichHas1Cameras_ShouldAddOnlyOneTime500()
+        {
+            const float expectedInsuranceValue = 2000;
+
+            var extraStrategies = new List<IInsuranceCalculationStrategy>()
+            {
+                new LowSalesPriceStrategy(),
+                new MediumSalesPriceStrategy(),
+                new HighSalesPriceStrategy(),
+            };
+
+            var dto = new List<InsuranceDto>(){
+                new InsuranceDto()
+                {
+                    ProductId = 836194,
+                },
+                new InsuranceDto()
+                {
+                    ProductId = 837856,
+                }};
+            
+            var sut = new HomeController(extraStrategies, _configuration);
+
+            var result = sut.CalculateAllInsurance(dto);
+
+            Assert.Equal(expected: expectedInsuranceValue, actual: result);
+        }
     }
 
     public class ControllerTestFixture: IDisposable
